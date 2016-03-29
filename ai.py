@@ -19,58 +19,55 @@ def setup(bot):
 
     random.seed()
 
-
+# Perhaps these should be decorators
 def decide(bot):
     return 0 < random.random() < float(bot.memory['frequency']) / 10
 
+def humansleep():
+    time.sleep(random.uniform(3, 7))
 
-@rule('(?i)$nickname\:\s+(bye|goodbye|gtg|seeya|cya|ttyl|g2g|gnight|goodnight)')
+@rule('(?i)$nick(bye|goodbye|gtg|seeya|cya|ttyl|g2g|gnight|goodnight)')
 @rate(30)
 def goodbye(bot, trigger):
+    humansleep()
     byemsg = random.choice(('Bye', 'Goodbye', 'Seeya', 'Auf Wiedersehen', 'Au revoir', 'Ttyl'))
     punctuation = random.choice(('!', ' '))
     bot.say(byemsg + ' ' + trigger.nick + punctuation)
 
+@rule('(?i)stupid ((ro)?bot|$nickname).*')
+@rate(30)
+@priority('high')
+def f_stupid(bot, trigger):
+    humansleep()
+    bot.reply("Stupid human!")
 
-@rule('(?i).*(thank).*(you).*(sopel|$nickname).*$')
+
+@rule('(?i)(.*thank(\s*you|s).*$nickname.*$|$nickthank(\s*you|s).*)')
 @rate(30)
 @priority('high')
 def ty(bot, trigger):
-    human = random.uniform(0, 9)
-    time.sleep(human)
+    humansleep()
     mystr = trigger.group()
     mystr = str(mystr)
     if (mystr.find(" no ") == -1) and (mystr.find("no ") == -1) and (mystr.find(" no") == -1):
         bot.reply("You're welcome.")
 
 
-@rule('(?i)$nickname\:\s+(thank).*(you).*')
-@rate(30)
-def ty2(bot, trigger):
-    ty(bot, trigger)
-
-
-@rule('(?i).*(thanks).*(sopel|$nickname).*')
-@rate(40)
-def ty4(bot, trigger):
-    ty(bot, trigger)
-
-
-@rule('(sopel|$nickname)\:\s+(yes|no)$')
+@rule('$nick(yes|no)$')
 @rate(15)
 def yesno(bot, trigger):
+    humansleep()
     rand = random.uniform(0, 5)
     text = trigger.group()
     text = text.split(":")
     text = text[1].split()
-    time.sleep(rand)
     if text[0] == 'yes':
         bot.reply("no")
     elif text[0] == 'no':
         bot.reply("yes")
 
 
-@rule('(?i)($nickname|sopel)\:\s+(ping)\s*')
+@rule('(?i)$nick(ping)\s*')
 @rate(30)
 def ping_reply(bot, trigger):
     text = trigger.group().split(":")
@@ -79,75 +76,97 @@ def ping_reply(bot, trigger):
         bot.reply("PONG")
 
 
-@rule('(?i)((sopel|$nickname)\[,:]\s*i.*love|i.*love.*(sopel|$nickname).*)')
+@rule('(?i)($nicki\s*love\s*you|i.*love.*(sopel|$nickname).*)')
 @rate(30)
 def love(bot, trigger):
+    humansleep()
     bot.reply("I love you too.")
 
-
-@rule('\s*([Xx]+[dD]+|([Hh]+[Aa]+)+)')
+@rule('(?i)($nickyou(.?re|\s*are)\s*((so|really|very)\s+)?awesome.*|.*(sopel|$nickname)\s*is\s*((so|really|very)\s+)?awesome.*)')
 @rate(30)
-def xd(bot, trigger):
-    respond = ['xDDDDD', 'XD', 'XDDDD', 'haha']
-    randtime = random.uniform(0, 3)
-    time.sleep(randtime)
-    bot.say(random.choice(respond))
+def awesome(bot, trigger):
+    humansleep()
+    bot.reply("You're not so bad yourself!")
 
+@rule('(?i)($nickyou(.?re|\s*are)\s*((so|really|very)\s+)?cool.*|.*(sopel|$nickname)\s*is\s*((so|really|very)\s+)?cool.*)')
+@rate(30)
+def cool(bot, trigger):
+    humansleep()
+    bot.action("dons sunglasses", trigger.sender)
 
-@rule('(haha!?|lol!?)$')
+@rule('(?i)^[^\s]*\s*(boops|hugs|p[ea]ts)\s*((a|the)\s+)?(sopel|$nickname)$')
+@rate(30)
+def hum(bot, trigger):
+    humansleep()
+    bot.action("hums contentedly")
+
+@rule('(?i)(^|.*\s+)(h(eh)+e?|(ha)+|l([eo]l)+|rofl|kek(ek)*e?|xd+)!?$')
 @priority('high')
+@rate(30)
 def f_lol(bot, trigger):
     if decide(bot):
-        respond = ['haha', 'lol', 'rofl', 'hm', 'hmmmm...']
-        randtime = random.uniform(0, 9)
-        time.sleep(randtime)
+        humansleep()
+        respond = ['haha', 'lol', 'rofl', 'hm', 'XD', 'hmmmm...']
         bot.say(random.choice(respond))
 
 
-@rule('^\s*(([Bb]+([Yy]+[Ee]+(\s*[Bb]+[Yy]+[Ee]+)?)|[Ss]+[Ee]{2,}\s*[Yy]+[Aa]+|[Oo]+[Uu]+)|cya|ttyl|[Gg](2[Gg]|[Tt][Gg]|([Oo]{2,}[Dd]+\s*([Bb]+[Yy]+[Ee]+|[Nn]+[Ii]+[Gg]+[Hh]+[Tt]+)))\s*(!|~|.)*)$')
+@rule('\s*(([Bb]+([Yy]+[Ee]+(\s*[Bb]+[Yy]+[Ee]+)?)|[Ss]+[Ee]{2,}\s*[Yy]+[Aa]+|[Oo]+[Uu]+)(\s+later)?|cya|ttyl|later|([Gg]2[Gg]|[Gg][Tt][Gg]|(([Gg][Oo]{2,}[Dd]+\s*)?[Gg]?([Bb]+[Yy]+[Ee]+|[Nn]+[Ii]+[Gg]+[Hh]+[Tt]+))))\s*((y?all|guys)\s*)?(!|~|[.])*$')
 @priority('high')
+@rate(30)
 def f_bye(bot, trigger):
     set1 = ['bye', 'byebye', 'see you', 'see ya', 'Good bye', 'have a nice day']
-    set2 = ['~', '~~~', '!', ' :)', ':D', '(Y)', '(y)', ':P', ':-D', ';)', '(wave)', '(flee)']
+    set2 = ['!', ' :)', ':D', ':P', ':-D', ';)', '(wave)']
     respond = [ str1 + ' ' + str2 for str1 in set1 for str2 in set2]
+    humansleep()
     bot.say(random.choice(respond))
 
-@rule('^\s*(([Hh]+([AaEe]+[Ll]+[Oo]+|[Ii]+)+\s*(all)?)|[Yy]+[Oo]+|[Aa]+[Ll]+|[Aa]nybody)\s*(!+|\?+|~+|.+|[:;][)DPp]+)*$')
+@rule('^\s*(([Hh]+([AaEe]+[Ll]{2}[Oo]+|[Ii]+|[Ee]+[Yy]+)+\s*(all|guys)?)|[Yy]+[Oo]+|[Aa]+[Ll]{2}|[Aa]nybody)\s*(!+|\?+|~+|[.]+|[:;][)DPp]+)*$')
 @priority('high')
+@rate(30)
 def f_hello(bot, trigger):
-    randtime = random.uniform(0, 7)
-    time.sleep(randtime)
+    humansleep()
     set1 = ['yo', 'hey', 'hi', 'Hi', 'hello', 'Hello', 'Welcome']
-    set2 = ['~', '~~~', '!', '?', ' :)', ':D', 'xD', '(Y)', '(y)', ':P', ':-D', ';)', ', How do you do?']
+    set2 = ['!', ' :)', ':D', 'xD', ':P', ':-D', ';)']
     respond = [ str1 + ' ' + str2 for str1 in set1 for str2 in set2]
     bot.say(random.choice(respond))
 
-
-@rule('(heh!?)$')
+@rule('^\s*(good\s*)?(morning|afternoon|evening)\s*(all|guys)?\s*(!+|\?+|~+|[.]+|[:;][)DPp]+)*$')
 @priority('high')
-def f_heh(bot, trigger):
-    if decide(bot):
-        respond = ['hm', 'hmmmmmm...', 'heh?']
-        randtime = random.uniform(0, 7)
-        time.sleep(randtime)
-        bot.say(random.choice(respond))
+@rate(30)
+def f_morning(bot, trigger):
+    f_hello(bot,trigger)
+
+#@rule('(heh!?)$')
+#@priority('high')
+#@rate(30)
+#def f_heh(bot, trigger):
+    #if decide(bot):
+        #humansleep()
+        #respond = ['hm', 'hmmmmmm...', 'heh?']
+        #bot.say(random.choice(respond))
 
 
-@rule('(?i)$nickname\:\s+(really!?)')
+@rule('(?i)$nick(really!?)')
 @priority('high')
 def f_really(bot, trigger):
-    randtime = random.uniform(10, 45)
-    time.sleep(randtime)
+    humansleep()
     bot.say(str(trigger.nick) + ": " + "Yes, really.")
 
+@rule('(?i).*[.]{3,}\s*yet[.]?$')
+@priority('high')
+@rate(30)
+def f_dundundun(bot, trigger):
+    if decide(bot):
+        humansleep()
+        bot.say('DUN DUN DUUUNNNN')
 
-@rule('^\s*[Ww]([Bb]|elcome\s*back)[\s:,].*$nickname')
+@rule('(?i)^\s*(w(b|elcome\s*back)[\s:,].*$nickname|$nickw(b|elcome\s*back))')
+@rate(30)
 def wb(bot, trigger):
+    humansleep()
     set1 = ['Thank you', 'thanks']
     set2 = ['!', ' :)', ' :D']
     respond = [ str1 + str2 for str1 in set1 for str2 in set2]
-    randtime = random.uniform(0, 7)
-    time.sleep(randtime)
     bot.reply(random.choice(respond))
 
 

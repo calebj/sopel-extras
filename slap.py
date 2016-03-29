@@ -1,7 +1,7 @@
 """
 slap.py - Slap Module
 Copyright 2009, Michael Yanovich, yanovich.net
-
+Copyright 2016, Caleb Johnson, calebj.io
 http://sopel.chat
 """
 
@@ -9,9 +9,22 @@ import random
 import re
 from sopel.module import commands
 
+verbs = [
+    'slaps',
+    'kicks',
+    'destroys',
+    'annihilates',
+    'punches',
+    'roundhouse kicks',
+    'pwns',
+    'owns',
+    'backstabs',
+    'slaps {} upside the head',
+    'kicks {}\'s legs out from under them'
+    ]
 
 @commands('slap', 'slaps')
-def slap(sopel, trigger):
+def slap(bot, trigger):
     """.slap <target> - Slaps <target>"""
     text = trigger.group().split()
     if len(text) < 2:
@@ -21,13 +34,27 @@ def slap(sopel, trigger):
         return
     if text[1] == 'me' or text[1] == 'myself':
         text[1] = trigger.nick
-    if text[1] == sopel.nick:
-        if (trigger.nick not in sopel.config.admins):
-            text[1] = trigger.nick
+    if trigger.sender in bot.channels:
+        slappable = bot.channels.get(trigger.sender).users
+    else:
+        slappable = [bot.nick, trigger.nick]
+    if text[1].lower() in [s.lower() for s in slappable]:
+        if text[1] == bot.nick:
+            if trigger.nick not in bot.config.core.admins:
+                text[1] = trigger.nick
+            else:
+                text[1] = 'itself'
+        if text[1] in bot.config.core.admins:
+            if trigger.nick not in bot.config.core.admins:
+                text[1] = trigger.nick
+        verb = random.choice(verbs)
+        if '{}' in verb:
+            action = verb.format(text[1])
         else:
-            text[1] = 'itself'
-    if text[1] in sopel.config.admins:
-        if (trigger.nick not in sopel.config.admins):
-            text[1] = trigger.nick
-    verb = random.choice(('slaps', 'kicks', 'destroys', 'annihilates', 'punches', 'roundhouse kicks', 'pwns', 'owns'))
-    sopel.write(['PRIVMSG', trigger.sender, ' :\x01ACTION', verb, text[1], '\x01'])
+            action = verb + ' ' + text[1]
+    elif trigger.sender not in bot.channels and bot.users.contains(text[1].lower()):
+        bot.say('You and I are the only ones here.', trigger.sender)
+        return
+    else:
+        action = 'looks around, but doesn\'t see {}'.format(text[1])
+    bot.action(action, trigger.sender)

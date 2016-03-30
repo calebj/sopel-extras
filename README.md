@@ -1,22 +1,9 @@
 #Introduction
 
-This repository holds modules for [Willie](https://github.com/embolalia/willie)
-which, for whatever reason, we don't want to include in the main repository. It
-may be that they are used for some specific purpose on [NFIRC](http://dftba.net)
-which doesn't have the broad use that makes it worth putting in Willie. It may
-be that the module conflicts with another module in Willie in some way, so it's
-been removed to require explicitly adding it and running a separate instance. It
-may be that the module is new, experimental, or just broken. It may be some
-other reason.
+This branch contains modules for the [Sopel](https://github.com/sopel-irc/sopel)
+bot in #FreedomPlanet on espernet. Several contain FP-themed rules, responses, 
+and commands.
 
-#Instructions
-
-The easiest way to install these is to put them in ``~/.willie/modules``, and
-then add ``extra = /home/yourname/.willie/modules`` to the ``[core]`` section of
-your config file.
-
-If any one module has further instructions, there will (probably) be a file
-named something like ``modulename-README.md`` to detail them.
 
 #Copying
 

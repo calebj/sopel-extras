@@ -10,17 +10,11 @@ import re
 from sopel.module import commands
 
 verbs = [
-    'slaps',
-    'kicks',
-    'destroys',
-    'annihilates',
-    'punches',
-    'roundhouse kicks',
-    'pwns',
-    'owns',
-    'backstabs',
-    'slaps {} upside the head',
-    'kicks {}\'s legs out from under them'
+    'sends {} flying with a robotic tentacle', 
+    'bull rushes {}, sending them flying',
+    'slashes {} in the face with a razor-sharp robot claw',
+    'transforms into a holodragon and laser blasts {} into a smoking crater',
+    'transforms into a holodragon and piledrives {} from orbit'
     ]
 
 @commands('slap', 'slaps')

@@ -41,6 +41,12 @@ def f_stupid(bot, trigger):
     humansleep()
     bot.reply("Stupid human!")
 
+@rule('(?i)(shut up,?\s*((ro)?bot|$nickname).*|$nickshut up)')
+@rate(30)
+def shut_up(bot, trigger):
+    humansleep()
+    bot.reply('No, you shut up!')
+
 
 @rule('(?i)(.*thank(\s*you|s).*$nickname.*$|$nickthank(\s*you|s).*)')
 @rate(30)

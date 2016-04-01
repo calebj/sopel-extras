@@ -20,13 +20,17 @@ verbs = [
 @commands('slap', 'slaps')
 def slap(bot, trigger):
     """.slap <target> - Slaps <target>"""
+    verb = None
     text = trigger.group().split()
     if len(text) < 2:
         text.append(trigger.nick)
     text[1] = re.sub(r"\x1f|\x02|\x12|\x0f|\x16|\x03(?:\d{1,2}(?:,\d{1,2})?)?", '', text[1])
     if text[1].startswith('#'):
         return
-    if text[1] == 'me' or text[1] == 'myself':
+    if text[1] in ['himself', 'herself', 'itself']:
+        verb = 'watches as {} slaps ' + text[1]
+        text[1] = trigger.nick
+    if text[1] in ['me', 'myself']:
         text[1] = trigger.nick
     if trigger.sender in bot.channels:
         slappable = bot.channels.get(trigger.sender).users
@@ -41,7 +45,7 @@ def slap(bot, trigger):
         if text[1] in bot.config.core.admins:
             if trigger.nick not in bot.config.core.admins:
                 text[1] = trigger.nick
-        verb = random.choice(verbs)
+        if not verb: verb = random.choice(verbs)
         if '{}' in verb:
             action = verb.format(text[1])
         else:
@@ -50,5 +54,5 @@ def slap(bot, trigger):
         bot.say('You and I are the only ones here.', trigger.sender)
         return
     else:
-        action = 'looks around, but doesn\'t see {}'.format(text[1])
+        action = 'looks around, but doesn\'t see "{}"'.format(text[1])
     bot.action(action, trigger.sender)

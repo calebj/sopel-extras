@@ -21,7 +21,7 @@ def spin(bot, trigger):
         {'icon':'Crystal', 'color':['white', 'blue']},
         {'icon':'Petal',   'color':['white', 'red']},
         {'icon':'Lilac',   'color':['white', 'purple']},
-        {'icon':'Carol',   'color':['black', 'green']},
+        {'icon':'Carol',   'color':['white', 'green']},
         {'icon':'Milla',   'color':['white', 'orange']},
         #{'icon':'Zao',     'color':['white', 'red']},
         {'icon':'Timtam',  'color':['white', 'black']}

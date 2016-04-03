@@ -94,7 +94,7 @@ def awesome(bot, trigger):
     humansleep()
     bot.reply("You're not so bad yourself!")
 
-@rule('(?i)($nickyou(.?re|\s*are)\s*((so|really|very)\s+)?cool.*|.*(sopel|$nickname)\s*is\s*((so|really|very)\s+)?cool.*)')
+@rule('(?i)($nickyou(.?re|\s*are)\s*((so|really|very|pretty)\s+)?cool.*|.*(sopel|$nickname)\s*is\s*((so|really|very|pretty)\s+)?cool.*)')
 @rate(30)
 def cool(bot, trigger):
     humansleep()
@@ -108,7 +108,7 @@ def hum(bot, trigger):
 
 @rule('(?i)(^|.*\s+)(h(eh)+e?|(ha)+|l([eo]l)+|rofl|kek(ek)*e?|xd+)!?$')
 @priority('high')
-@rate(30)
+@rate(60)
 def f_lol(bot, trigger):
     if decide(bot):
         humansleep()
@@ -118,7 +118,7 @@ def f_lol(bot, trigger):
 
 @rule('\s*(([Bb]+([Yy]+[Ee]+(\s*[Bb]+[Yy]+[Ee]+)?)|[Ss]+[Ee]{2,}\s*[Yy]+[Aa]+|[Oo]+[Uu]+)(\s+later)?|cya|ttyl|later|([Gg]2[Gg]|[Gg][Tt][Gg]|(([Gg][Oo]{2,}[Dd]+\s*)?[Gg]?([Bb]+[Yy]+[Ee]+|[Nn]+[Ii]+[Gg]+[Hh]+[Tt]+))))\s*((y?all|guys)\s*)?(!|~|[.])*$')
 @priority('high')
-@rate(30)
+@rate(60)
 def f_bye(bot, trigger):
     set1 = ['bye', 'byebye', 'see you', 'see ya', 'Good bye', 'have a nice day']
     set2 = ['!', ' :)', ':D', ':P', ':-D', ';)', '(wave)']
@@ -128,7 +128,7 @@ def f_bye(bot, trigger):
 
 @rule('^\s*(([Hh]+([AaEe]+[Ll]{2}[Oo]+|[Ii]+|[Ee]+[Yy]+)+\s*(all|guys)?)|[Yy]+[Oo]+|[Aa]+[Ll]{2}|[Aa]nybody)\s*(!+|\?+|~+|[.]+|[:;][)DPp]+)*$')
 @priority('high')
-@rate(30)
+@rate(120)
 def f_hello(bot, trigger):
     humansleep()
     set1 = ['yo', 'hey', 'hi', 'Hi', 'hello', 'Hello', 'Welcome']
@@ -138,7 +138,7 @@ def f_hello(bot, trigger):
 
 @rule('^\s*(good\s*)?(morning|afternoon|evening)\s*(all|guys)?\s*(!+|\?+|~+|[.]+|[:;][)DPp]+)*$')
 @priority('high')
-@rate(30)
+@rate(120)
 def f_morning(bot, trigger):
     f_hello(bot,trigger)
 

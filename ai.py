@@ -27,7 +27,7 @@ def humansleep():
     time.sleep(random.uniform(3, 7))
 
 @rule('(?i)$nick(bye|goodbye|gtg|seeya|cya|ttyl|g2g|gnight|goodnight)')
-@rate(30)
+@rate(channel=30)
 def goodbye(bot, trigger):
     humansleep()
     byemsg = random.choice(('Bye', 'Goodbye', 'Seeya', 'Auf Wiedersehen', 'Au revoir', 'Ttyl'))
@@ -100,7 +100,7 @@ def cool(bot, trigger):
     humansleep()
     bot.action("dons sunglasses", trigger.sender)
 
-@rule('(?i)^[^\s]*\s*(boops|hugs|p[ea]ts)\s*((a|the)\s+)?(sopel|$nickname)$')
+@rule('(?i)^[^\s]*\s*(boops|hugs|p[ea]ts)\s*((a|the)\s+)?(sopel|$nickname)(!|[.])*')
 @rate(30)
 def hum(bot, trigger):
     humansleep()
@@ -108,7 +108,7 @@ def hum(bot, trigger):
 
 @rule('(?i)(^|.*\s+)(h(eh)+e?|(ha)+|l([eo]l)+|rofl|kek(ek)*e?|xd+)!?$')
 @priority('high')
-@rate(60)
+@rate(channel=60)
 def f_lol(bot, trigger):
     if decide(bot):
         humansleep()
@@ -118,7 +118,7 @@ def f_lol(bot, trigger):
 
 @rule('\s*(([Bb]+([Yy]+[Ee]+(\s*[Bb]+[Yy]+[Ee]+)?)|[Ss]+[Ee]{2,}\s*[Yy]+[Aa]+|[Oo]+[Uu]+)(\s+later)?|cya|ttyl|later|([Gg]2[Gg]|[Gg][Tt][Gg]|(([Gg][Oo]{2,}[Dd]+\s*)?[Gg]?([Bb]+[Yy]+[Ee]+|[Nn]+[Ii]+[Gg]+[Hh]+[Tt]+))))\s*((y?all|guys)\s*)?(!|~|[.])*$')
 @priority('high')
-@rate(60)
+@rate(channel=60)
 def f_bye(bot, trigger):
     set1 = ['bye', 'byebye', 'see you', 'see ya', 'Good bye', 'have a nice day']
     set2 = ['!', ' :)', ':D', ':P', ':-D', ';)', '(wave)']
@@ -128,7 +128,7 @@ def f_bye(bot, trigger):
 
 @rule('^\s*(([Hh]+([AaEe]+[Ll]{2}[Oo]+|[Ii]+|[Ee]+[Yy]+)+\s*(all|guys)?)|[Yy]+[Oo]+|[Aa]+[Ll]{2}|[Aa]nybody)\s*(!+|\?+|~+|[.]+|[:;][)DPp]+)*$')
 @priority('high')
-@rate(120)
+@rate(channel=120)
 def f_hello(bot, trigger):
     humansleep()
     set1 = ['yo', 'hey', 'hi', 'Hi', 'hello', 'Hello', 'Welcome']
@@ -138,7 +138,7 @@ def f_hello(bot, trigger):
 
 @rule('^\s*(good\s*)?(morning|afternoon|evening)\s*(all|guys)?\s*(!+|\?+|~+|[.]+|[:;][)DPp]+)*$')
 @priority('high')
-@rate(120)
+@rate(channel=120)
 def f_morning(bot, trigger):
     f_hello(bot,trigger)
 
@@ -158,7 +158,7 @@ def f_really(bot, trigger):
     humansleep()
     bot.say(str(trigger.nick) + ": " + "Yes, really.")
 
-@rule('(?i).*[.]{3,}\s*yet[.]?$')
+@rule('(?i).*[.]{3,}\s*yet[.!]?$')
 @priority('high')
 @rate(30)
 def f_dundundun(bot, trigger):

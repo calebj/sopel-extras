@@ -392,6 +392,7 @@ def f_unfavtweet(bot, trigger):
         fav = favorited(api, statusid)
         if alreadytest(fav, False, api.destroy_favorite, args=statusid,
                         printer=bot.reply, action_name = 'favorited'):
+            status = _gettweet(api, statusid)
             _saytweet(bot, trigger.sender, status)
     else:
         bot.reply("Please provide a status ID.")
